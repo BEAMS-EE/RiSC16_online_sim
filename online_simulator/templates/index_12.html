@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+ 	<title>Submit your code for verification</title>
+	<h1>Submit you code for verification</h1>
+	<form action="{{ url_for('upload') }}" method=post enctype=multipart/form-data>
+	<p>
+	<input type=file name=file><br>
+	<input type="checkbox" name="asm_digest" value="digest" checked="checked" >ASM digest<br>
+	<input type="checkbox" name="trace" value="trace">Execution trace<br>
+	
+	Maximum instructions per test:<SELECT name="exec" size="1">
+		<option value="1000">10³
+		<option value="10000">10⁴
+		<option value="100000" selected >10⁵
+		<option value="1000000">10⁶
+		<option value="10000000">10⁷
+	</SELECT><br>
+	<input type=submit value=Upload>
+	</form>
+{% endblock %}

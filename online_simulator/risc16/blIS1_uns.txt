@@ -1,0 +1,42 @@
+//IS1 unsigned
+
+movi 1,1
+nop
+movi 2,-1
+nop
+movi 3,0x7fff
+nop
+movi 4,0x8000
+nop
+movi 5, 0xffff
+nop
+//1<1
+bl 1,1,1
+beq 0,0,1
+trap "1<1 oO"
+//1<0
+bl 1,0,1
+beq 0,0,1
+trap "1<0 oO"
+//0<1
+bl 0,1,1
+trap "0!<1 oO"
+//-1<0
+bl 0,2,1
+trap "0!<0xffff oO"
+//1<0xffff
+bl 1,2,1
+trap "1!<0xffff oO"
+//0x7fff<0x8000
+bl 3,4,1
+trap "0x7fff!<0x8000"
+//0x7fff<0xffff
+bl 3,5,1
+trap "0x7fff!<0xffff"
+//0<0x8000
+bl 0,4,1
+trap "0!<0x8000"
+//0x8000<0xffff
+bl 4,5,1
+trap "0x8000!<0xffff"
+halt

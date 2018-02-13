@@ -1,0 +1,42 @@
+//IS2 signed
+
+movi 1,1
+nop
+movi 2,-1
+nop
+movi 3,0x7fff
+nop
+movi 4,0x8000
+nop
+movi 5, 0xffff
+nop
+//1>1
+bg 1,1,1
+beq 0,0,1
+trap "1>1 oO"
+//1>0
+bg 0,1,1
+beq 0,0,1
+trap "1<0 oO"
+//0<1
+bg 1,0,1
+trap "0!<1 oO"
+//-1<0
+bg 0,2,1
+trap "-1!<0 oO"
+//-1<1
+bg 1,2,1
+trap "-1!<1 oO"
+//0x8000<0x7fff
+bg 3,4,1
+trap "0x8000!<0x7fff"
+//-1<32767
+bg 3,2,1
+trap "-1!<0x7fff"
+//0x8000<0
+bg 0,4,1
+trap "0x8000!<0"
+//0x8000<0xffff
+bg 5,4,1
+trap "0x8000!<0xffff"
+halt

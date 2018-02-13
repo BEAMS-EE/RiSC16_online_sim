@@ -1,0 +1,40 @@
+//sha test
+movi 1,0x1
+movi 2,15
+movi 3,16
+movi 4,-15
+movi 5, 0x8000
+movi 6,0xffff //-1
+sha 7,1,2
+sha 7,1,3, 1
+nop
+sha 7,1,4, 1 //skip next instruction
+nop
+sha 7,5,4, overflowleft
+
+nop
+overflowleft:
+sha 7,1,2, faraway
+nop
+nop
+nop
+nop
+sha 7,5,1,1
+nop
+sha 7,6,1,1
+nop
+sha 7,6,6,1
+nop
+nop
+faraway: nop
+sha 7,5,6,1
+sha 7,7,6,1
+sha 7,7,6,1
+nop
+sha 7,5,4,1
+nop
+
+nop
+nop
+
+halt

@@ -1,0 +1,18 @@
+               MOVI 1,0xffff
+               MOVI 2,0x0531
+               MOVI 3,0x42
+               MOVI 4,0xbeef
+               MOVI 5,0xf00d
+               MOVI 6,0x0409
+               MOVI 7,0x2015
+               
+               ADDI 1,1,1
+loop:          NAND 1,1,1                                
+               NAND 2,2,2                                  
+               BEQ  2,0,copy_and_exit
+                 
+               NAND 4,2,1   
+               NAND 4,4,4                          
+               BEQ  2,4,loop          
+copy_and_exit: SW   4,3,0                                   
+               HALT                                           

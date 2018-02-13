@@ -1,0 +1,29 @@
+//add test
+movi 1,0xFFFF
+movi 2,0x1
+movi 3,0x8000
+movi 4,0x7FFF
+add 7,2,1
+add 7,2,1, overflow
+add 7,3,3, faraway
+add 7,3,3, overflowneg
+trap "overflow not triggered"
+nop
+overflowneg:
+add 7,4,4, overflowpos
+trap "overflow not triggered"
+nop
+overflowpos:
+add 7,3,4, overflow
+trap "overflow not triggered"
+nop
+overflow: addi 7,0,1
+add 7,3,3, 1 //skip next instruction
+nand 0,0,0
+add 4,1,1, nooverflow
+nooverflow: addi 7,0,2
+nop
+nop
+faraway: nop
+trap "This is to verify long overflow jumps"
+halt

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block head %}
+	{% block title %}		<title>Statistics...</title>	{% endblock %}
+{% endblock %}
+{% block body %}
+	<h1>Statistics...</h1>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="refresh" content="5">
+	<a href="{{url_for('upload')}}" title="Return to upload page.">Return to upload page.</a><br>
+	<h2>Jobs</h2>
+	
+	<table border="1">
+	<tr>
+		<td>Remaining/pending</td>
+		<td>{{ pending }}</td>
+	</tr>
+	<tr>
+		<td>Completed</td>
+		<td>{{ count }}</td>
+	</tr>
+	<tr>
+		<td>t(request)</td>
+		<td>{{ treq }}</td>
+	</tr>
+	</table> 
+	<h2>Reports</h2>
+	<table border="1">
+	<tr>
+		<td>Status</td>
+		<td>File</td>
+		<td>Report</td>
+	</tr>
+	{{lines|safe}}
+	</table> 
+	
+{% endblock %}

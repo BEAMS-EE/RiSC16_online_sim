@@ -1,0 +1,53 @@
+// IS1 unsigned
+
+// use trap in auto mode with the makefile
+// use halt with the java simulator
+movi 1,1
+nop
+movi 2,-1
+nop
+movi 3, 0x8000
+nop
+movi 4, 0x7fff
+nop
+
+sub 5,1,1
+beq 0,5,ok1
+trap "sub failed"
+
+ok1: nop
+	movi 6,2
+	nop
+	sub 5,1,2,ovf1
+	//+1 -0xffff should be 2, with overflow
+	trap "Missing overflow for 1-0xffff"
+	beq 5,6,ok2
+	trap "incorrect sub"
+ovf1: nop
+	//trap "unexpected overflow with signed +1--1"
+	//halt
+ok2: nop
+	sub 5,3,1,1
+	
+	beq 5,4,ok3
+	trap "Unexpected overflow"
+	trap "Incorrect sum"
+ok3: nop
+	sub 5,4,2,1
+	trap "Missing overflow"
+	beq 5,3,ok4
+	trap "Incorrect sum"
+ok4: nop
+	sub 5,4,3,1
+	trap "Missing overflow"
+	beq 5,2,ok5
+	trap "Incorrect sum"
+ok5: nop
+	movi 6,1
+	nop
+	sub 5,3,4,1
+	beq 5,1,ok6
+	trap "Unexpected overflow"
+	trap "Incorrect sum"
+ok6: nop
+	halt

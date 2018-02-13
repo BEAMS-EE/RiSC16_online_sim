@@ -1,0 +1,20 @@
+<!DOCTYPE HTML >
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<html>
+	<head>	{% block head %}
+		<title>{% block title %}Index of {% endblock %} - YGA/KH verification tool for ELEC-H-473</title>
+	{% endblock %}</head>
+	
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class=flashes>
+				{% for message in messages %}
+					<li>{{ message }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+<body>
+{% block body %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,120 @@
+//16b mul : R1×R2=>R4,R3
+movi 1, 0xffff
+movi 2, 0x42
+
+
+//mask
+add 5,1,0 //copy 1=>5
+//add 6,0,0 //r6=0
+//add 4,0,0 //init result, just in case
+//add 3,0,0
+addi 1,0,1 //init mask
+
+
+loop:
+//check bit in r2
+nand 7,1,2 
+nand 7,7,7
+beq 7,0,skip
+//if 1, add to result
+add 4,6,4 //add MSW, nothing to check
+//extract bit 15 from reg5
+//init mask
+
+
+//r3(15)=1:
+  //r5(15)=1:
+    //r4++
+    //r3=r5+r3
+  //r5(15)=0:
+    //r3=r5+r3
+    //r3(15)=1:
+      //r4++
+
+//r3(15)=0:
+  //r5(15)=1:
+    //r3=r5+r3
+    //r3(15)=1:
+      //r4++
+      
+//verify if r3(15)=1
+movi 7,0x8000
+nand 7,3,7 //nand with reg3
+nand 7,7,7 //invert
+beq 7,0,fini_r1 //means bit was 0 (0 nand 1=>1)
+  //bit was 1, verify r5(15)
+  movi 7,0x8000
+  nand 7,5,7 //nand with reg5
+  nand 7,7,7 //invert 
+  add 3,3,5 //add, because sometimes, you have to do things
+  beq 7,0,add_then_check//was 0
+    //r5(15)=1
+    addi 4,4,1 //add the carry
+  beq 0,0, skip //we are done
+  
+  add_then_check: //r5(15) was 0
+    //add 3,3,5 //add, because sometimes, you have to do things
+    //verify sum(15)=1
+    movi 7,0x8000
+    nand 7,3,7 //nand with reg3
+    nand 7,7,7 //invert
+    beq 7,0,skip_add
+      //sum(15) was 1
+      addi 4,4,1 //add the carry to reg6
+  skip_add:
+beq 0,0,skip //done
+//addi 4,4,1 //add 1 to carry reg
+//nand 1,6,1 //clear bit
+//nand 1,1,1 //get and
+
+fini_r1: //r3(15) was 0
+  //r5(15)=1 ?
+  add 3,3,5 //add, because sometimes, you have to do things
+  //beq 0,0,skip
+  //movi 7,0x8000
+  //nand 7,5,7 //nand with reg5
+  //nand 7,7,7 //invert
+  //add 3,3,5 //add, because sometimes, you have to do things
+  //beq 7,0,skip//was 0, done
+    //r3(15)=1
+    //addi 4,4,1 //add the carry
+  //beq 0,0, skip_add2 //we are done
+  
+  //check_sum: //r5(15) was 0
+   // add 3,3,5 //add, because sometimes, you have to do things
+    //verify sum(15)=1
+    //movi 7,0x8000
+    //nand 7,3,7 //nand with reg3
+    //nand 7,7,7 //invert
+    //beq 7,0,skip_add2
+      //sum(15) was 1
+      //addi 4,4,1 //add the carry to reg6
+//skip_add2:
+
+skip://skip the 32b add
+//shift r1
+  add 1,1,1 //shift to the left
+
+//shift r6,r5
+  //shift reg6 to the left
+  add 6,6,6
+  //extract bit 15 from reg5
+  //init mask
+  movi 7,0x8000
+
+  //and
+  nand 7,7,5 //nand with reg1
+  nand 7,7,7 //not reg 7
+  beq 7,0,fini_32sll //means bit was 0 (0 nand 1=>1)
+  addi 6,6,1
+  fini_32sll:
+  add 5,5,5 //SLL reg5
+
+
+//loop
+beq 0,1,end //if r1=0, all is done, end
+beq 0,0,loop //else, loop
+end:
+//add 4,0,4
+//add 3,0,3
+halt

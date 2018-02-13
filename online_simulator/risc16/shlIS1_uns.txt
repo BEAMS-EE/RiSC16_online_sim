@@ -1,0 +1,78 @@
+// IS1 unsigned
+movi 1,1
+nop
+
+movi 2,1
+nop
+
+movi 6,2
+nop
+shl 3,1,2
+beq 6,3,ok1
+trap "1<<1!=2"
+ok1: nop
+	movi 1,0x8000
+	nop
+	shl 3,1,2
+	beq 3,0,ok2
+	trap "0x8000<<1!=0"
+ok2: nop
+	movi 1, 0x7fff
+	nop
+	movi 7, 0xfffe
+	nop
+	shl 3,1,2
+	beq 7,3,ok3
+	trap "0x7fff<<1!=0xfffe"
+ok3: nop
+	movi 2,15
+	nop
+	movi 7,0x8000
+	nop
+	shl 3,1,2
+	beq 7,3,ok4
+	trap "1<<15!=0x8000"
+ok4: nop
+	movi 1,0x8000
+	nop
+	movi 2,-1
+	//should give a warning
+	nop
+	movi 7, 0x4000
+	shl 3,1,2
+	beq 3,7,ok5
+	//trap "0x8000>>1!=0x4000"
+ok5: nop
+	movi 2,-15
+	//should give a warning
+	nop
+	movi 7, 0x1
+	shl 3,1,2
+	beq 3,7,ok6
+	//trap "0x8000>>15!=0x1"
+ok6: nop
+	//overflows
+	movi 1,0x8000
+	nop
+	movi 2,1
+	nop
+	shl 3,1,2,1
+	trap "missing overflow in 0x8000<<1"
+	beq 3,0,ok7
+	trap "0x8000<<1!=0"
+ok7: nop
+	movi 1,0x8000
+	nop
+	movi 2,-16
+	//should give a warning
+	nop
+	movi 7, 0x0000
+	shl 3,1,2,3
+	beq 3,7,ok8
+	//trap "0x8000>>16!=0x0000"
+	//trap "unexpected overflow in 0x8000>>16"
+	nop
+	nop
+	nop
+ok8: halt
+	

@@ -1,0 +1,23 @@
+movi 1, 0x10
+
+movi 2, 0x4
+
+nand 7,1,2
+sw 1,0,18
+lw 6,0,18
+loop: beq 2, 0, end
+add 3, 3, 1
+addi 2, 2, -1
+beq 0, 0, loop
+end: movi 4,0
+
+beq 0,0,1
+addi 1,0,1
+movi 7, 21//func
+jalr 6,7
+movi 7,0xb00b
+
+halt
+func: movi 5,0x42
+
+jalr 0,6

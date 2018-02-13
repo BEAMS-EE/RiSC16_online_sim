@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block head %}
+  {% block title %}
+  {% if status == "download" %}
+	<title>Downloaded log</title>
+  {% elif status == "done" %}
+	<title>Verification done.</title>	
+  {% elif status == "pending" %}
+	<title>Verification pending...</title>
+  {% elif status == "wait" %}
+	<title>Please wait...</title>
+  {% else %}
+	<title>WTF just happened ?</title>
+  {% endif %}
+  {% endblock %}
+{% endblock %}
+
+
+{% block body %}
+  {% if status == "download" %}
+	<h1>{{filename}}</h1>
+  {% elif status == "done" %}
+	<h1>Verification done.</h1>
+  {% elif status == "pending" %}
+	<h1>Verification pending...</h1>
+  {% elif status == "wait" %}
+	<h1>Verification has not started yet, please wait...</h1>
+  {% else %}
+	<h1>WTF just happened ?</h1>	
+  {% endif %}
+  
+  <meta http-equiv="Cache-Control" content="no-cache">
+  {% if status == "download" %}
+	<pre><code>{{ log_content|safe }}</code></pre>
+  
+  {% elif status == "done" %}
+	<a href="{{url_for('upload')}}" title="Return to upload page.">Return to upload page.</a><br>
+	<!--<pre>-->
+	<pre>Be sure that instructions are reserved at the beginning to initialise registers used to store operands.</pre>
+	<pre><code>{{ log_content|safe }}</code></pre>
+	<!--</pre>-->
+	<a href="{{url_for('upload')}}" title="Return to upload page.">Return to upload page.</a><br>
+	<a href="{{url_for('serve_reports',filename=filename)}}" download title="Download_report (html)">Download report (html).</a><br>
+	<a href="{{url_for('serve_reports_txt',filename=filename)}}" download title="Download_report (text format)">Download report (text format).</a><br>
+  
+  {% elif status == "pending" %}
+	<meta http-equiv="refresh" content="1">
+	<pre><code>{{ log_content|safe }}</code></pre>
+  
+  {% elif status == "wait" %}
+	<meta http-equiv="refresh" content="1">
+	<a href="{{url_for('upload')}}" title="Return to upload page.">Return to upload page.</a><br>
+	Please wait until the queue is processed... {{ pending }} jobs.
+  
+  {% else %}
+	<pre>WTF just happened ?</pre>	
+  {% endif %}  
+	
+	
+{% endblock %}

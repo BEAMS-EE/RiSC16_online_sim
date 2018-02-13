@@ -1,0 +1,14 @@
+//16 bit SLL
+movi 5,0x42 //init reg 5
+//nop //backward compat with java simulator
+//movi 7,0x7fff
+//nand 5,7,5
+redefined:
+redefined:
+movi 0,0,0
+
+//nand 5,5,5
+movi 1,1
+shl 5,5,1 //left shift
+beq 0,0, fail
+halt //we are done! Next!

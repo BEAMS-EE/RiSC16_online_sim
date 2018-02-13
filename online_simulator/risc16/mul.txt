@@ -1,0 +1,15 @@
+//sha test
+movi 1,0x1
+movi 2,15
+movi 3,16
+movi 4,-15
+movi 5, 0x8000
+movi 6,0xffff //-1
+movi 7,15
+
+mul 2,3,4 //16*-15
+mul 2,3,5 // 16*-32768
+mul 2,3,7 //16*15
+mul 2,6,6 //-1*-1
+mul 2,4,4 //-15*-15
+halt

@@ -1,0 +1,15 @@
+//bit 15 extraction : extract bit 15 from reg1
+movi 1,0x8042 	//init reg 1, base value
+nop //backward compat with java simulator
+
+//init mask
+movi 7,0x8000
+
+//and
+nand 7,7,1 //nand with reg1
+nand 7,7,7 //not reg 7
+beq 7,0,fini //means bit was 0 (0 nand 1=>1)
+addi 7,0,1
+fini:
+addi 7,7,0 //just to get the value in the trace
+halt //we are done! Next!

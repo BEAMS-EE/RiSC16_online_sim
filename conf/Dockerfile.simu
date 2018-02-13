@@ -1,0 +1,13 @@
+FROM alpine:latest
+
+EXPOSE 8000
+
+ADD online_simulator online_simulator
+WORKDIR online_simulator
+
+RUN apk update && apk add --no-cache \
+    git \
+    py2-pip \
+&& pip2 install -U -r requirements.txt
+
+CMD gunicorn app_nginx:app -b 0.0.0.0:8000

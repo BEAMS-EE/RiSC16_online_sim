@@ -1,0 +1,23 @@
+ 
+movi 1,42
+beq 0,0,ok
+nop
+ok :
+lw 0,0,10
+beq 8,8,next
+next:
+nop
+sw 0,0,-10
+bew 0,0, bad
+bad: halt
+mul 0,0,0
+xor 0,0,0
+nop brol
+add 0
+movi 0,0,42
+lui 1,2,3
+addi 0,0,0,0
+addi 0,0
+add 0,0,0,0
+add 0,0
+beq ,,bad

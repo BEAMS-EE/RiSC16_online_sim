@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block head %}
+	{% block title %}		<title>Code submitted</title>	{% endblock %}
+{% endblock %}
+{% block body %}
+	<h1>Code submitted:</h1>
+	<!--<meta http-equiv="Cache-Control" content="no-cache">-->
+	<a href="{{url_for('admin')}}" title="Return to admin page.">Return to upload page.</a><br>
+	{{ code_content|safe }}<br>
+	<a href="{{url_for('upload')}}" title="Return to upload page.">Return to upload page.</a><br>
+	<a href="{{url_for('log_page',filename=filename)}}.log" title="See report">See report.</a><br>
+	<a href="{{url_for('serve_reports',filename=filename)}}" download title="Download_report (html)">Download report (html).</a><br>
+	<a href="{{url_for('serve_reports_txt',filename=filename)}}" download title="Download_report (text format)">Download report (text format).</a><br>
+{% endblock %}

@@ -1,0 +1,27 @@
+version: '3'
+ 
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.nginx
+    deploy:
+      restart_policy: 
+        condition: on-failure
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+  simu:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.simu
+    deploy:
+      restart_policy: 
+        condition: on-failure
+    restart: unless-stopped
+    volumes:
+      - "/srv/risc16/log:/online_simulator/log"
+      - "/srv/risc16/upload:/online_simulator/upload"
+      - "/srv/risc16/modules:/online_simulator/modules"
+    depends_on:
+      - nginx
