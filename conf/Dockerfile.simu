@@ -1,13 +1,16 @@
-FROM alpine:latest
+FROM debian:stretch
 
 EXPOSE 8000
 
-ADD online_simulator online_simulator
+COPY online_simulator online_simulator
+
 WORKDIR online_simulator
 
-RUN apk update && apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
-    py2-pip \
-&& pip2 install -U -r requirements.txt
+    python-pip \
+    python-flask \
+    python-matplotlib \
+    gunicorn
 
 CMD gunicorn app_nginx:app -b 0.0.0.0:8000

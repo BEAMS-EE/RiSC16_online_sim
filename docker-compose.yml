@@ -10,7 +10,9 @@ services:
         condition: on-failure
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8000:8000"
+    depends_on:
+      - simu
   simu:
     build:
       context: .
@@ -22,6 +24,4 @@ services:
     volumes:
       - "/srv/risc16/log:/online_simulator/log"
       - "/srv/risc16/upload:/online_simulator/upload"
-      - "/srv/risc16/modules:/online_simulator/modules"
-    depends_on:
-      - nginx
+

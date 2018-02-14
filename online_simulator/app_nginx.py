@@ -211,6 +211,7 @@ def update_jobs_pending(none):
 def upload():
     global jobs_pending
     g.list_exo = [exo for exo in os.listdir(MODULE_FOLDER)]
+    print g.list_exo
 
     if request.method == 'POST':
         file = request.files['file']
@@ -323,7 +324,7 @@ def admin():
 
 if __name__ == '__main__':
 #	app.debug=True
-    app.run(host='0.0.0.0',port=8080)
+    app.run(host='0.0.0.0',port=8000)
 #	while(1):
 #		try:
 #			app.run(host='0.0.0.0',port=8080)
