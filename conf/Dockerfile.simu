@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM bitnami/minideb:latest
 
 EXPOSE 8000
 
