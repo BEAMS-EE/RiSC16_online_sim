@@ -227,9 +227,12 @@ class RISC16:
 					self.set_error_message( "Undefined instruction in IS0 '{0}'".format(instr),self.pc)
 					print >>self.digestfile,"Undefined instruction in IS0 : '{0}'".format(instr,self.pc)
 				#... in IS1
-				if self.IS=="IS1" and op in ("mul", "bg"):
+				if self.IS=="IS1" and op in ("mul"):
 					self.set_error_message( "Undefined instruction in IS1 '{0}'".format(instr),self.pc)
 					print >>self.digestfile,"Undefined instruction in IS1 : '{0}'".format(instr,self.pc)
+				if self.IS=="IS2" and op in ("bg"):
+					self.set_error_message( "Undefined instruction in IS2 '{0}'".format(instr),self.pc)
+					print >>self.digestfile,"Undefined instruction in IS2 : '{0}'".format(instr,self.pc)
 					
 				#if op in ("movi", "halt", "add", "addi", "nand", "lui", "lw", "sw", "beq", "jalr", "reset", "nop", "sub", "nor", "xor", "or", "and", "xnor", "bl", "shl", "sha", "shifti", "mul", "bg"):
 				
