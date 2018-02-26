@@ -602,27 +602,6 @@ class RISC16:
 				self.print_reg(param[0])
 				ort=self.out_reg(param[0])
 				self.pc+=1
-			else: pass
-				
-		if self.IS=="IS2":
-			#print "instruction in IS2 only"
-			if "mul" == op:
-				if self.unsigned:
-					op1=self.registers[param[1]]&0xffff
-					op2=self.registers[param[2]]&0xffff
-				else:
-					op1=self.registers[param[1]]-0x10000*(self.registers[param[1]]>0x7fff)
-					op2=self.registers[param[2]]-0x10000*(self.registers[param[2]]>0x7fff)
-				prod=(op1*op2)&0xFFFFFFFF
-				self.registers[param[0]]=prod&0xffff
-				self.print_reg(param[0])
-				
-				if param[0]>1:
-					self.registers[param[0]-1]=(prod>>16)&0xffff
-					self.print_reg(param[0]-1)
-					ort=self.out_reg(param[0]-1)
-				ort+=self.out_reg(param[0])
-				self.pc+=1	
 			elif "bg" == op:
 				#print param[2],self.link[param[2]]
 				try:
@@ -649,7 +628,28 @@ class RISC16:
 					#print "jump to :",self.pc
 				else:
 					self.pc+=1
-				pc="pc: {0:0=#02x}".format(self.pc)
+				pc="pc: {0:0=#02x}".format(self.pc)                        
+			else: pass
+				
+		if self.IS=="IS2":
+			#print "instruction in IS2 only"
+			if "mul" == op:
+				if self.unsigned:
+					op1=self.registers[param[1]]&0xffff
+					op2=self.registers[param[2]]&0xffff
+				else:
+					op1=self.registers[param[1]]-0x10000*(self.registers[param[1]]>0x7fff)
+					op2=self.registers[param[2]]-0x10000*(self.registers[param[2]]>0x7fff)
+				prod=(op1*op2)&0xFFFFFFFF
+				self.registers[param[0]]=prod&0xffff
+				self.print_reg(param[0])
+				
+				if param[0]>1:
+					self.registers[param[0]-1]=(prod>>16)&0xffff
+					self.print_reg(param[0]-1)
+					ort=self.out_reg(param[0]-1)
+				ort+=self.out_reg(param[0])
+				self.pc+=1	
 			else: pass
 		self.registers[0]=0
 		#if pc:
