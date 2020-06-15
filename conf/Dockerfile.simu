@@ -1,16 +1,14 @@
-FROM bitnami/minideb:latest
+FROM python:2-slim
 
 EXPOSE 8000
 
-COPY online_simulator online_simulator
-
-WORKDIR online_simulator
-
 RUN apt-get update && apt-get install -y \
-    git \
-    python-pip \
-    python-flask \
-    python-matplotlib \
-    gunicorn
+    python-flask python-matplotlib gunicorn\
+    && rm -rf /var/lib/apt/lists/*
+
+COPY online_simulator online_simulator
+RUN chown -R 1000:1000 /online_simulator
+USER 1000:1000
+WORKDIR online_simulator
 
 CMD gunicorn app_nginx:app -b 0.0.0.0:8000

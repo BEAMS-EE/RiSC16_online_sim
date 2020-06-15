@@ -5,9 +5,6 @@ services:
     build:
       context: .
       dockerfile: conf/Dockerfile.nginx
-    deploy:
-      restart_policy: 
-        condition: on-failure
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -17,11 +14,8 @@ services:
     build:
       context: .
       dockerfile: conf/Dockerfile.simu
-    deploy:
-      restart_policy: 
-        condition: on-failure
     restart: unless-stopped
     volumes:
-      - "/srv/risc16/log:/online_simulator/log"
-      - "/srv/risc16/upload:/online_simulator/upload"
+      - "./simulator/log:/online_simulator/log"
+      - "./simulator/upload:/online_simulator/upload"
 
